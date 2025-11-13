@@ -1,6 +1,4 @@
-import { createEnv } from '@t3-oss/env-nextjs';
 import debug from 'debug';
-import { z } from 'zod';
 
 import { EdgeConfig } from '@/server/modules/EdgeConfig';
 import { merge } from '@/utils/merge';
@@ -10,18 +8,8 @@ import { parseFeatureFlag } from './utils/parser';
 
 const log = debug('lobe-feature-flags');
 
-const env = createEnv({
-  runtimeEnv: {
-    FEATURE_FLAGS: process.env.FEATURE_FLAGS,
-  },
-
-  server: {
-    FEATURE_FLAGS: z.string().optional(),
-  },
-});
-
 export const getServerFeatureFlagsValue = () => {
-  const flags = parseFeatureFlag(env.FEATURE_FLAGS);
+  const flags = parseFeatureFlag(process.env.FEATURE_FLAGS);
 
   const result = merge(DEFAULT_FEATURE_FLAGS, flags);
   return result;
