@@ -1,7 +1,4 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import { createEnv } from '@t3-oss/env-nextjs';
-import { z } from 'zod';
-
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
@@ -27,68 +24,39 @@ const PLUGINS_INDEX_URL = 'https://registry.npmmirror.com/@lobehub/plugins-index
 export const getAppConfig = () => {
   const ACCESS_CODES = process.env.ACCESS_CODE?.split(',').filter(Boolean) || [];
 
-  return createEnv({
-    client: {
-      NEXT_PUBLIC_ENABLE_SENTRY: z.boolean(),
-    },
-    server: {
-      ACCESS_CODES: z.any(z.string()).optional(),
+  return {
+    // Sentry
+    NEXT_PUBLIC_ENABLE_SENTRY: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-      AGENTS_INDEX_URL: z.string().url(),
+    ACCESS_CODES: ACCESS_CODES as any,
 
-      DEFAULT_AGENT_CONFIG: z.string(),
-      SYSTEM_AGENT: z.string().optional(),
+    AGENTS_INDEX_URL: !!process.env.AGENTS_INDEX_URL
+      ? process.env.AGENTS_INDEX_URL
+      : ASSISTANT_INDEX_URL,
 
-      PLUGINS_INDEX_URL: z.string().url(),
-      PLUGIN_SETTINGS: z.string().optional(),
+    DEFAULT_AGENT_CONFIG: process.env.DEFAULT_AGENT_CONFIG || '',
+    SYSTEM_AGENT: process.env.SYSTEM_AGENT,
 
-      APP_URL: z.string().optional(),
-      VERCEL_EDGE_CONFIG: z.string().optional(),
-      MIDDLEWARE_REWRITE_THROUGH_LOCAL: z.boolean().optional(),
-      ENABLE_AUTH_PROTECTION: z.boolean().optional(),
+    PLUGINS_INDEX_URL: !!process.env.PLUGINS_INDEX_URL
+      ? process.env.PLUGINS_INDEX_URL
+      : PLUGINS_INDEX_URL,
 
-      CDN_USE_GLOBAL: z.boolean().optional(),
-      CUSTOM_FONT_FAMILY: z.string().optional(),
-      CUSTOM_FONT_URL: z.string().optional(),
+    PLUGIN_SETTINGS: process.env.PLUGIN_SETTINGS,
 
-      SSRF_ALLOW_PRIVATE_IP_ADDRESS: z.boolean().optional(),
-      SSRF_ALLOW_IP_ADDRESS_LIST: z.string().optional(),
-      MARKET_BASE_URL: z.string().optional(),
-    },
-    runtimeEnv: {
-      // Sentry
-      NEXT_PUBLIC_ENABLE_SENTRY: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
+    VERCEL_EDGE_CONFIG: process.env.VERCEL_EDGE_CONFIG,
 
-      ACCESS_CODES: ACCESS_CODES as any,
+    APP_URL,
+    MIDDLEWARE_REWRITE_THROUGH_LOCAL: process.env.MIDDLEWARE_REWRITE_THROUGH_LOCAL === '1',
+    ENABLE_AUTH_PROTECTION: process.env.ENABLE_AUTH_PROTECTION === '1',
 
-      AGENTS_INDEX_URL: !!process.env.AGENTS_INDEX_URL
-        ? process.env.AGENTS_INDEX_URL
-        : ASSISTANT_INDEX_URL,
+    CUSTOM_FONT_FAMILY: process.env.CUSTOM_FONT_FAMILY,
+    CUSTOM_FONT_URL: process.env.CUSTOM_FONT_URL,
+    CDN_USE_GLOBAL: process.env.CDN_USE_GLOBAL === '1',
 
-      DEFAULT_AGENT_CONFIG: process.env.DEFAULT_AGENT_CONFIG || '',
-      SYSTEM_AGENT: process.env.SYSTEM_AGENT,
-
-      PLUGINS_INDEX_URL: !!process.env.PLUGINS_INDEX_URL
-        ? process.env.PLUGINS_INDEX_URL
-        : PLUGINS_INDEX_URL,
-
-      PLUGIN_SETTINGS: process.env.PLUGIN_SETTINGS,
-
-      VERCEL_EDGE_CONFIG: process.env.VERCEL_EDGE_CONFIG,
-
-      APP_URL,
-      MIDDLEWARE_REWRITE_THROUGH_LOCAL: process.env.MIDDLEWARE_REWRITE_THROUGH_LOCAL === '1',
-      ENABLE_AUTH_PROTECTION: process.env.ENABLE_AUTH_PROTECTION === '1',
-
-      CUSTOM_FONT_FAMILY: process.env.CUSTOM_FONT_FAMILY,
-      CUSTOM_FONT_URL: process.env.CUSTOM_FONT_URL,
-      CDN_USE_GLOBAL: process.env.CDN_USE_GLOBAL === '1',
-
-      SSRF_ALLOW_PRIVATE_IP_ADDRESS: process.env.SSRF_ALLOW_PRIVATE_IP_ADDRESS === '1',
-      SSRF_ALLOW_IP_ADDRESS_LIST: process.env.SSRF_ALLOW_IP_ADDRESS_LIST,
-      MARKET_BASE_URL: process.env.MARKET_BASE_URL,
-    },
-  });
+    SSRF_ALLOW_PRIVATE_IP_ADDRESS: process.env.SSRF_ALLOW_PRIVATE_IP_ADDRESS === '1',
+    SSRF_ALLOW_IP_ADDRESS_LIST: process.env.SSRF_ALLOW_IP_ADDRESS_LIST,
+    MARKET_BASE_URL: process.env.MARKET_BASE_URL,
+  };
 };
 
 export const appEnv = getAppConfig();
