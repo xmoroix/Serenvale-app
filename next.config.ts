@@ -19,6 +19,9 @@ const nextConfig: NextConfig = {
 
   serverExternalPackages: ['@electric-sql/pglite'],
 
+  // Empty turbopack config to silence Next.js 16 warning
+  turbopack: {},
+
   webpack: (config) => {
     // PGLite WASM support
     config.resolve.fallback = {
