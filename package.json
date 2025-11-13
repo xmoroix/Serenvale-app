@@ -81,6 +81,7 @@
     "react-hotkeys-hook": "^5.2.1",
     "react-i18next": "^15.7.4",
     "react-layout-kit": "^2.0.0",
+    "react-virtuoso": "^4.14.1",
     "rehype": "^13.0.2",
     "rehype-katex": "^7.0.1",
     "remark": "^15.0.1",
