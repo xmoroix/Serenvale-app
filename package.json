@@ -63,6 +63,7 @@
     "drizzle-orm": "^0.44.7",
     "drizzle-zod": "^0.5.1",
     "framer-motion": "^12.23.24",
+    "gpt-tokenizer": "^3.4.0",
     "i18next": "^25.6.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-resources-to-backend": "^1.2.1",
@@ -87,6 +88,7 @@
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "swr": "^2.3.6",
+    "tokenx": "^1.2.1",
     "zod": "^3.25.76",
     "zustand": "5.0.4",
     "zustand-utils": "^2.1.1"
