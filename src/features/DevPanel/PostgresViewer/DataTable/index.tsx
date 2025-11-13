@@ -5,7 +5,7 @@ import React from 'react';
 import { Center, Flexbox } from 'react-layout-kit';
 import { mutate } from 'swr';
 
-import { exportService } from '@/services/export';
+// import { exportService } from '@/services/export'; // Disabled: export service not yet implemented
 
 import Header from '../../features/Header';
 import Table from '../../features/Table';
@@ -42,8 +42,9 @@ const DataTable = ({ tableName }: DataTableProps) => {
           {
             icon: Download,
             onClick: async () => {
-              const data = await exportService.exportData();
-              console.log(data);
+              // const data = await exportService.exportData();
+              // console.log(data);
+              console.log('Export functionality not yet implemented');
             },
             title: 'Export',
           },
