@@ -1,6 +1,5 @@
 import { ReactNode, Suspense } from 'react';
 
-import { LobeAnalyticsProviderWrapper } from '@/components/Analytics/LobeAnalyticsProviderWrapper';
 import { getServerFeatureFlagsValue } from '@/config/featureFlags';
 import { appEnv } from '@/envs/app';
 import DevPanel from '@/features/DevPanel';
@@ -57,9 +56,7 @@ const GlobalLayout = async ({
             segmentVariants={variants}
             serverConfig={serverConfig}
           >
-            <QueryProvider>
-              <LobeAnalyticsProviderWrapper>{children}</LobeAnalyticsProviderWrapper>
-            </QueryProvider>
+            <QueryProvider>{children}</QueryProvider>
             <StoreInitialization />
             <Suspense>
               <ImportSettings />
