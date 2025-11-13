@@ -1,26 +1,32 @@
-import UAParser from 'ua-parser-js';
-
 import { isOnServerSide } from './env';
 
-export const getParser = () => {
-  if (isOnServerSide) return new UAParser('Node');
-
-  let ua = navigator.userAgent;
-  return new UAParser(ua);
-};
-
 export const getPlatform = () => {
-  return getParser().getOS().name;
+  if (isOnServerSide) return 'Node';
+
+  const ua = navigator.userAgent;
+  if (ua.indexOf('Mac OS') !== -1) return 'Mac OS';
+  if (ua.indexOf('Windows') !== -1) return 'Windows';
+  if (ua.indexOf('Linux') !== -1) return 'Linux';
+  if (ua.indexOf('Android') !== -1) return 'Android';
+  if (ua.indexOf('iOS') !== -1 || ua.indexOf('iPhone') !== -1 || ua.indexOf('iPad') !== -1) return 'iOS';
+  return 'Unknown';
 };
 
 export const getBrowser = () => {
-  return getParser().getResult().browser.name;
+  if (isOnServerSide) return 'Node';
+
+  const ua = navigator.userAgent;
+  if (ua.indexOf('Chrome') !== -1) return 'Chrome';
+  if (ua.indexOf('Safari') !== -1) return 'Safari';
+  if (ua.indexOf('Firefox') !== -1) return 'Firefox';
+  if (ua.indexOf('Edge') !== -1) return 'Edge';
+  return 'Unknown';
 };
 
 export const browserInfo = {
   browser: getBrowser(),
-  isMobile: getParser().getDevice().type === 'mobile',
-  os: getParser().getOS().name,
+  isMobile: !isOnServerSide && /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent),
+  os: getPlatform(),
 };
 
 export const isMacOS = () => getPlatform() === 'Mac OS';
