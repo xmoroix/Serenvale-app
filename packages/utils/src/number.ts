@@ -1,21 +1,11 @@
 import { IMAGE_GENERATION_CONFIG, MAX_SEED } from 'model-bank';
-import prand from 'pure-rand';
 
 export function generateUniqueSeeds(seedCount: number): number[] {
-  // Use current timestamp as the initial seed
-  const initialSeed = Date.now();
-
-  // Create an instance of Xoroshiro128+ random number generator
-  let rng = prand.xoroshiro128plus(initialSeed);
-
   const seeds = new Set<number>();
 
   while (seeds.size < seedCount) {
-    // Generate a 31-bit random integer (PostgreSQL INTEGER compatible)
-    const [randomInt, nextRng] = prand.uniformIntDistribution(0, MAX_SEED, rng);
-
-    // Update RNG state
-    rng = nextRng;
+    // Generate a random integer between 0 and MAX_SEED
+    const randomInt = Math.floor(Math.random() * (MAX_SEED + 1));
 
     // Add to the set, ensuring uniqueness
     seeds.add(randomInt);
